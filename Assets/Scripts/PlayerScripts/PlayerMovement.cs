@@ -42,6 +42,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Transform startingPoint;
 
+    //Sprite operations
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
+    [SerializeField]
+    private Sprite jumpModeSprite;
+
+    [SerializeField]
+    private Sprite flightModeSprite;
+
     //INITIAL CODE START
     private void Start()
     {
@@ -83,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void jumpAndRotate()
     {
-
+        spriteRenderer.sprite = jumpModeSprite;
         if (onGround())
         {
             //Rounding euler rotation for smoothing.
@@ -107,13 +117,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void sideScrolling()
-    {   //Simple sidescrolling here, nothing fancy.
+    {   //Moves character sideways
         transform.position += Vector3.right * sideScrollingSpeed * Time.deltaTime;
     }
 
     public void changeToFlyMode()
     {   //With this we change the currentGameMode variable to flyMode.
         currentGameMode = gameMode.flyMode;
+        spriteRenderer.sprite = flightModeSprite;
     }
 
     private void flyMode()
@@ -140,6 +151,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void restart()
     {
+        spriteRenderer.sprite = jumpModeSprite;
         playerRb.gravityScale = 12.41067f;//restoring old settings while restarting
         currentGameMode = gameMode.jumpMode;
         transform.position = startingPoint.position;//Restarting the same scene
